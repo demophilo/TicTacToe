@@ -1,3 +1,6 @@
+const chalk = require('C:\\Users\\karl\\node_modules\\@babel\\highlight\\node_modules\\chalk');
+
+
 let tictactoe = [[null, null, null], [null, null, null], [null, null, null]];
 
 function isWon(board) {
@@ -24,7 +27,21 @@ let tot9 = [[1, 0, 0], [0, 1, 1], [1, 0, 1]];
 let tot10 = [[1, 1, 0], [0, 1, 1], [0, 0, 1]];
 let tot11= [[1, 0, 0], [0, 1, 1], [0, 1, 1]];
 
-console.log(isWon(tot10))
+function drawBoard(board) {
+    let drawnBoard = "  " + chalk.underline(" A B C ") + "\n";
+    for (let row = 0; row <= 2; row++) {
+        drawnBoard = `${drawnBoard}` + `${row+1} ` + chalk.underline(`${String.fromCharCode(9474)}`);
+        for (let column = 0; column <=2; column++) {
+            drawnBoard =drawnBoard +
+                chalk.underline(`${"x".repeat(board[row][column] === 1)}${"O".repeat(board[row][column] === 0)}${" ".repeat(board[row][column] !== 1 && board[row][column] !== 0)}${String.fromCharCode(9474)}`);
+        }
+        drawnBoard = drawnBoard +"\n"
+    }
+
+    return drawnBoard;
+}
+
+console.log(drawBoard(tot1))
 
 const winningPattern = [
     [[1, 1, 1], [1, 0, 0], [0, 1, 0]],
