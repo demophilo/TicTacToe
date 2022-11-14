@@ -1,4 +1,4 @@
-const chalk = require('C:\\Users\\karl\\node_modules\\@babel\\highlight\\node_modules\\chalk');
+const chalk = require('./chalk');
 
 
 let tictactoe = [[null, null, null], [null, null, null], [null, null, null]];
@@ -29,11 +29,19 @@ let tot11= [[1, 0, 0], [0, 1, 1], [0, 1, 1]];
 
 function drawBoard(board) {
     let drawnBoard = "  " + chalk.underline(" A B C ") + "\n";
+    const verticalLine = "|"
     for (let row = 0; row <= 2; row++) {
-        drawnBoard = `${drawnBoard}` + `${row+1} ` + chalk.underline(`${String.fromCharCode(9474)}`);
+        drawnBoard = `${drawnBoard}` + `${row+1} ` + chalk.underline("|");
         for (let column = 0; column <=2; column++) {
-            drawnBoard =drawnBoard +
-                chalk.underline(`${"x".repeat(board[row][column] === 1)}${"O".repeat(board[row][column] === 0)}${" ".repeat(board[row][column] !== 1 && board[row][column] !== 0)}${String.fromCharCode(9474)}`);
+            if (board[row][column] === 1) {
+                drawnBoard = drawnBoard + chalk.underline("x" + verticalLine);
+            }
+            else if (board[row][column] === 0) {
+                drawnBoard = drawnBoard + chalk.underline(String.fromCharCode(11096) + verticalLine);
+            }
+            else {
+                drawnBoard = drawnBoard + chalk.underline(" " + verticalLine);
+            }
         }
         drawnBoard = drawnBoard +"\n"
     }
@@ -56,6 +64,16 @@ const winningPattern = [
     [[1, 1, 0], [0, 1, 1], [0, 0, 1]],
     [[1, 0, 0], [0, 1, 1], [0, 1, 1]]];
 
+function allowedInputs () {
+    let allowedCombinations = [];
+    for (column of ["A", "B", "C"]) {
+        for (row of ["1", "2", "3"]) {
+            allowedCombinations.push(column + row);
+        }
+    }
+    return allowedCombinations;
+}
+console.log(allowedInputs());
 /*
 for (let pattern =0; pattern < winningPattern.length; pattern++) {
     let temp = winningPattern[pattern]
