@@ -1,8 +1,9 @@
-const chalk = require('./chalk');
+const chalk = require('./chalk'); // for underlining and coloring text
 const prompt = require("prompt-sync")();
 let gameProgress
 
 let board = [[null, null, null], [null, null, null], [null, null, null]];
+let exampleBoard = [[1, 0, 0], [1, 0, ], [, 1, 1]] // remove after finished
 
 function isWon(board) {
     let winningCondition =    board[0][0] === 1 && board[0][1] === 1 && board[0][2] === 1 ||
@@ -40,7 +41,7 @@ function drawBoard(board) {
     return drawnBoard;
 }
 
-console.log(drawBoard(tot1))
+console.log(drawBoard(exampleBoard))
 
 
 
@@ -59,7 +60,7 @@ function inputSqare() {
     let input ="";
 
     while (input === "") {
-        input = prompt("Which sqare do you chose? ");
+        input = prompt("Which square do you chose? ");
         if (input.toUpperCase() === "QUIT") {
             break;
         }
