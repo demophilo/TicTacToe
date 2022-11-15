@@ -26,7 +26,7 @@ function inputPlayers() {
   for (let playerId = 1; playerId <=2; playerId++) {
     console.log(`Who is player ${playerId}?`);
     console.log("Type in your name or chose an AI.")
-    console.log("List of AI's:\nBabybot\nMoronbot\nGolem XIV\nHonest Annie")
+    console.log("List of AI\'s:\nBabybot\nMoronbot\nGolem XIV\nHonest Annie")
     let nameInput = prompt();
     const player = {"name": nameInput, "playerId": playerId}
   }
