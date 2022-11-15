@@ -1,5 +1,5 @@
 const chalk = require('./chalk');
-
+const prompt = require("prompt-sync")();
 
 let tictactoe = [[null, null, null], [null, null, null], [null, null, null]];
 
@@ -74,11 +74,23 @@ function allowedInputs () {
     return allowedCombinations;
 }
 console.log(allowedInputs());
-/*
-for (let pattern =0; pattern < winningPattern.length; pattern++) {
-    let temp = winningPattern[pattern]
-   console.log(isWon(temp))
+
+function inputSqare() {
+    let input ="";
+
+    while (input === "") {
+        input = prompt("Which sqare do you chose? ");
+        if (input.toUpperCase() === "QUIT") {
+            break;
+        }
+        input = input.trim();
+        input = input.toUpperCase();
+        allowedSquares = allowedInputs();
+        if (!allowedSquares.includes(input)) {
+            input = "";
+        }
+    }
+    return input;
 }
 
-
-*/
+console.log(inputSqare());
