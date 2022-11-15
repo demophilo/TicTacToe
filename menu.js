@@ -21,10 +21,9 @@ if (userStartInput === "s") {
 console.log("TIC TAC TOE Menu");
 function displayMenu() {
   let players = [];
-  let player = {};
-  for (let playerId = 1; playerId <=2; playerId++)
-  console.log(""
-      `Who is player ${playerId}?`;
+  let player = {"name":"", "id":};
+  for (let playerId = 1; playerId <=2; playerId++) {
+    player.prompt(`Who is player ${playerId}?`);
 }
 
 //************userChoice************
