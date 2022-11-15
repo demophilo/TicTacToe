@@ -18,18 +18,13 @@ if (userStartInput === "s") {
 }
 
 //*************DISPLAY MENU****************
+console.log("TIC TAC TOE Menu");
 function displayMenu() {
-  console.log("TIC TAC TOE Menu");
-  let gameMode0 = "please choose your game mode";
-  console.log("\n" + gameMode0);
-  let gameMode1 = "1 for Human vs Human";
-  console.log("\n" + gameMode1);
-  let gameMode2 = "2 for Random AI vs Random AI";
-  console.log("\n" + gameMode2);
-  let gameMode3 = "3 for Human vs Random AI";
-  console.log("\n" + gameMode3);
-  let gameMode4 = "4 for Human vs unbeatable AI";
-  console.log("\n" + gameMode4);
+  let players = [];
+  let player = {};
+  for (let playerId = 1; playerId <=2; playerId++)
+  console.log(""
+      `Who is player ${playerId}?`;
 }
 
 //************userChoice************

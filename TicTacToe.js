@@ -1,7 +1,8 @@
 const chalk = require('./chalk');
 const prompt = require("prompt-sync")();
+let gameProgress
 
-let tictactoe = [[null, null, null], [null, null, null], [null, null, null]];
+let board = [[null, null, null], [null, null, null], [null, null, null]];
 
 function isWon(board) {
     let winningCondition =    board[0][0] === 1 && board[0][1] === 1 && board[0][2] === 1 ||
@@ -15,17 +16,7 @@ function isWon(board) {
     return winningCondition;
 }
 
-let tot1 = [[1, 1, 1], [1, 0, 0], [0, 1, 0]];
-let tot2 = [[1, 1, 1], [1, 0, 0], [0, 0, 1]];
-let tot3 = [[1, 1, 1], [1, 0, 0], [0, 1, 0]];
-let tot4 = [[1, 1, 1], [1, 0, 1], [0, 0, 0]];
-let tot5 = [[1, 1, 1], [1, 1, 0], [0, 1, 0]];
-let tot6 = [[1, 0, 1], [1, 1, 1], [0, 0, 0]];
-let tot7 = [[1, 0, 0], [1, 1, 1], [0, 1, 0]];
-let tot8 = [[1, 1, 0], [1, 1, 1], [0, 0, 0]];
-let tot9 = [[1, 0, 0], [0, 1, 1], [1, 0, 1]];
-let tot10 = [[1, 1, 0], [0, 1, 1], [0, 0, 1]];
-let tot11= [[1, 0, 0], [0, 1, 1], [0, 1, 1]];
+
 
 function drawBoard(board) {
     let drawnBoard = "  " + chalk.underline(" A B C ") + "\n";
@@ -51,18 +42,7 @@ function drawBoard(board) {
 
 console.log(drawBoard(tot1))
 
-const winningPattern = [
-    [[1, 1, 1], [1, 0, 0], [0, 1, 0]],
-    [[1, 1, 1], [1, 0, 0], [0, 0, 1]],
-    [[1, 1, 1], [1, 0, 0], [0, 1, 0]],
-    [[1, 1, 1], [1, 0, 1], [0, 0, 0]],
-    [[1, 1, 1], [1, 1, 0], [0, 1, 0]],
-    [[1, 0, 1], [1, 1, 1], [0, 0, 0]],
-    [[1, 0, 0], [1, 1, 1], [0, 1, 0]],
-    [[1, 1, 0], [1, 1, 1], [0, 0, 0]],
-    [[1, 0, 0], [0, 1, 1], [1, 0, 1]],
-    [[1, 1, 0], [0, 1, 1], [0, 0, 1]],
-    [[1, 0, 0], [0, 1, 1], [0, 1, 1]]];
+
 
 function allowedInputs () {
     let allowedCombinations = [];
@@ -94,3 +74,5 @@ function inputSqare() {
 }
 
 console.log(inputSqare());
+
+
