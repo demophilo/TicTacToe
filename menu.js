@@ -9,17 +9,12 @@ function intro () {
   let yourChoice = "Your choice: ";
   let userStartInput = prompt(yourChoice).toLowerCase();
 
-  if (userStartInput === "s") {
-    displayMenu();
-  } else if (userStartInput === "quit") {
+  if (userStartInput === "quit") {
     endGame();
-  } else {
-    console.log("\n" + "Please enter s to start Tic Tac Toe");
   }
 
 }
 
-//*************DISPLAY MENU****************
 
 function inputPlayers() {
   let players = [];
@@ -29,7 +24,9 @@ function inputPlayers() {
     console.log("List of AI\'s:\nBabybot\nMoronbot\nGolem XIV\nHonest Annie")
     let nameInput = prompt();
     const player = {"name": nameInput, "playerId": playerId}
+    players.push(player);
   }
+  return players;
 }
 
 
@@ -38,6 +35,9 @@ function inputPlayers() {
 function endGame() {
    console.log("Game is over, as you wish master");
 }
+
+intro();
+inputPlayers();
 
 
 /*
