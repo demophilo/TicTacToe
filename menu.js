@@ -1,8 +1,10 @@
 const prompt = require("prompt-sync")();
+const chalk = require('./chalk');
 
 //*************first menu on display********
 function intro () {
-  console.log("Welcome to TicTacToe");
+  console.clear();
+  console.log(chalk.red("Welcome to TicTacToe"));
   console.log("\n" + "Please enter s to start the game.");
   console.log("\n\n" + "You can quit the game by entering quit.");
 

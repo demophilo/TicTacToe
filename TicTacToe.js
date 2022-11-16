@@ -32,13 +32,10 @@ function inputPlayers() {
 
 
 
-//*********endGame******** */
-function endGame() {
-    console.log("Game is over, as you wish master");
-}
 
 
-let gameProgress
+
+let gameProgress = [];
 
 let board = [[null, null, null], [null, null, null], [null, null, null]];
 let exampleBoard = [[1, 0, 0], [1, 0, ], [, 1, 1]] // remove after finished
@@ -114,3 +111,7 @@ function inputSqare() {
 console.log(inputSqare());
 
 
+//*********endGame******** */
+function endGame() {
+    console.log("Game is over, as you wish master");
+}
