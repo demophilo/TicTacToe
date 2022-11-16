@@ -1,12 +1,47 @@
-const chalk = require("./chalk");
+
+const chalk = require('./chalk'); // for underlining and coloring text
+
 const prompt = require("prompt-sync")();
 const menu = require("./menu");
 
-let tictactoe = [
-  [null, null, null],
-  [null, null, null],
-  [null, null, null],
-];
+function intro () {
+    console.clear();
+    console.log(chalk.red("Welcome to TicTacToe"));
+    console.log("\n" + "Please enter s to start the game.");
+    console.log("\n\n" + "You can quit the game by entering quit.");
+
+    let yourChoice = "Your choice: ";
+    let userStartInput = prompt(yourChoice).toLowerCase();
+
+    if (userStartInput === "quit") {
+        endGame();
+    }
+
+}
+
+
+function inputPlayers() {
+    let players = [];
+    for (let playerId = 1; playerId <=2; playerId++) {
+        console.log(`Who is player ${playerId}?`);
+        console.log("Type in your name or chose an AI.")
+        console.log("List of AI\'s:\nBabybot\nMoronbot\nGolem XIV\nHonest Annie")
+        let nameInput = prompt();
+        const player = {"name": nameInput, "playerId": playerId}
+        players.push(player);
+    }
+    return players;
+}
+
+
+
+
+
+
+let gameProgress = [];
+
+let board = [[null, null, null], [null, null, null], [null, null, null]];
+let exampleBoard = [[1, 0, 0], [1, 0, ], [, 1, 1]] // remove after finished
 
 function isWon(board) {
   let winningCondition =
@@ -20,6 +55,8 @@ function isWon(board) {
     (board[2][0] === 1 && board[1][1] === 1 && board[0][2] === 1);
   return winningCondition;
 }
+
+
 
 function drawBoard(board) {
   let drawnBoard = "  " + chalk.underline(" A B C ") + "\n";
@@ -37,17 +74,19 @@ function drawBoard(board) {
         drawnBoard = drawnBoard + chalk.underline(" " + verticalLine);
       }
     }
-    drawnBoard = drawnBoard + "\n";
-  }
-
-  return drawnBoard;
+    return drawnBoard;
 }
 
-function allowedInputs() {
-  let allowedCombinations = [];
-  for (column of ["A", "B", "C"]) {
-    for (row of ["1", "2", "3"]) {
-      allowedCombinations.push(column + row);
+console.log(drawBoard(exampleBoard))
+
+
+
+function allowedInputs () {
+    let allowedCombinations = [];
+    for (column of ["A", "B", "C"]) {
+        for (row of ["1", "2", "3"]) {
+            allowedCombinations.push(column + row);
+        }
     }
   }
   return allowedCombinations;
@@ -57,10 +96,17 @@ console.log(allowedInputs());
 function inputSqare() {
   let input = "";
 
-  while (input === "") {
-    input = prompt("Which sqare do you chose? ");
-    if (input.toUpperCase() === "QUIT") {
-      break;
+    while (input === "") {
+        input = prompt("Which square do you chose? ");
+        if (input.toUpperCase() === "QUIT") {
+            break;
+        }
+        input = input.trim();
+        input = input.toUpperCase();
+        allowedSquares = allowedInputs();
+        if (!allowedSquares.includes(input)) {
+            input = "";
+        }
     }
     input = input.trim();
     input = input.toUpperCase();
@@ -73,3 +119,9 @@ function inputSqare() {
 }
 
 console.log(inputSqare());
+
+
+//*********endGame******** */
+function endGame() {
+    console.log("Game is over, as you wish master");
+}
