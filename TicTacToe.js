@@ -2,7 +2,7 @@
 const chalk = require('./chalk'); // for underlining and coloring text
 
 const prompt = require("prompt-sync")();
-const menu = require("./menu");
+
 
 function intro () {
     console.clear();
@@ -33,13 +33,7 @@ function inputPlayers() {
     return players;
 }
 
-
-
-
-
-
 let gameProgress = [];
-
 let board = [[null, null, null], [null, null, null], [null, null, null]];
 let exampleBoard = [[1, 0, 0], [1, 0, ], [, 1, 1]] // remove after finished
 
@@ -59,43 +53,42 @@ function isWon(board) {
 
 
 function drawBoard(board) {
-  let drawnBoard = "  " + chalk.underline(" A B C ") + "\n";
+  let drawnBoard = "  " + chalk.underline(" A B C ") + "\n"; // head row
   const verticalLine = "|";
   for (let row = 0; row <= 2; row++) {
-    drawnBoard = `${drawnBoard}` + `${row + 1} ` + chalk.underline("|");
-    for (let column = 0; column <= 2; column++) {
-      if (board[row][column] === 1) {
-        drawnBoard = drawnBoard + chalk.underline("x" + verticalLine);
-      } else if (board[row][column] === 0) {
-        drawnBoard =
-          drawnBoard +
-          chalk.underline(String.fromCharCode(11096) + verticalLine);
-      } else {
-        drawnBoard = drawnBoard + chalk.underline(" " + verticalLine);
-      }
+      let leftDescription = `${row + 1} ${chalk.underline("|")}`;
+      drawnBoard += leftDescription
+      for (let column = 0; column <= 2; column++) {
+          if (board[row][column] === 1) {
+            drawnBoard += chalk.underline("x" + verticalLine);
+          } else if (board[row][column] === 0) {
+            drawnBoard += chalk.underline(String.fromCharCode(11096) + verticalLine);
+          } else {
+            drawnBoard += chalk.underline(" " + verticalLine);
+          }
     }
-    return drawnBoard;
+  drawnBoard += "\n";
+  }
+  return drawnBoard;
 }
 
 console.log(drawBoard(exampleBoard))
 
 
 
-function allowedInputs () {
+function allowedInputs() {
     let allowedCombinations = [];
     for (column of ["A", "B", "C"]) {
         for (row of ["1", "2", "3"]) {
             allowedCombinations.push(column + row);
         }
     }
-  }
-  return allowedCombinations;
+    return allowedCombinations;
 }
 console.log(allowedInputs());
 
 function inputSqare() {
-  let input = "";
-
+    let input = "";
     while (input === "") {
         input = prompt("Which square do you chose? ");
         if (input.toUpperCase() === "QUIT") {
@@ -103,18 +96,12 @@ function inputSqare() {
         }
         input = input.trim();
         input = input.toUpperCase();
-        allowedSquares = allowedInputs();
+        let allowedSquares = allowedInputs();
         if (!allowedSquares.includes(input)) {
             input = "";
         }
     }
-    input = input.trim();
-    input = input.toUpperCase();
-    allowedSquares = allowedInputs();
-    if (!allowedSquares.includes(input)) {
-      input = "";
-    }
-  }
+
   return input;
 }
 
