@@ -1,39 +1,36 @@
 
 const chalk = require('./chalk'); // for underlining and coloring text
 const prompt = require("prompt-sync")();
+let board = [[null, null, null], [null, null, null], [null, null, null]];
 
 
 function intro () {
     console.clear();
     console.log(chalk.red("Welcome to TicTacToe"));
-    console.log("\n" + "Please enter s to start the game.");
-    console.log("\n\n" + "You can quit the game by entering quit.");
+    console.log(`Please enter s to start the game or q to quit.`);
 
     let yourChoice = "Your choice: ";
     let userStartInput = prompt(yourChoice).toLowerCase();
 
-    if (userStartInput === "quit") {
+    if (userStartInput === "q") {
         endGame();
     }
 }
 
 function inputPlayers() {
+    console.clear();
     let players = [];
-    for (let playerId = 1; playerId <=2; playerId++) {
-        console.log(`Who is player ${playerId}?`);
-        console.log("Type in your name or chose an AI.");
-        console.log("List of AI\'s:\nBabybot\nMoronbot\nGolem XIV\nHonest Annie");
-        let player = prompt();
+    for (let playerId = 0; playerId <=1; playerId++) {
+        console.log(`Who is player ${playerId + 1}?`);
+        // console.log("List of AI\'s:\nBabybot\nMoronbot\nGolem XIV\nHonest Annie");
+        let player = prompt("Type in your name or chose an AI.");
         players.push(player);
     }
     return players;
 }
 
-let board = [[null, null, null], [null, null, null], [null, null, null]];
-let exampleBoard = [[1, 0, 0], [1, 0, null], [null, 1, 1]] // remove after finished
-
 function isWon(board) {
-  let winningCondition =
+    let winningCondition =
     (board[0][0] === 1 && board[0][1] === 1 && board[0][2] === 1) ||
     (board[1][0] === 1 && board[1][1] === 1 && board[1][2] === 1) ||
     (board[2][0] === 1 && board[2][1] === 1 && board[2][2] === 1) ||
@@ -42,27 +39,28 @@ function isWon(board) {
     (board[0][2] === 1 && board[1][2] === 1 && board[2][2] === 1) ||
     (board[0][0] === 1 && board[1][1] === 1 && board[2][2] === 1) ||
     (board[2][0] === 1 && board[1][1] === 1 && board[0][2] === 1);
-  return winningCondition;
+return winningCondition;
 }
 
 function drawBoard(board) {
-  let displayBoard = "  " + chalk.underline(" A B C ") + "\n"; // head row
-  const verticalLine = "|";
-  for (let row = 0; row <= 2; row++) {
-      let leftDescription = `${row + 1} ${chalk.underline("|")}`;
-      displayBoard += leftDescription
-      for (let column = 0; column <= 2; column++) {
-          if (board[row][column] === 1) {
-            displayBoard += chalk.underline("x" + verticalLine);
-          } else if (board[row][column] === 0) {
-            displayBoard += chalk.underline(String.fromCharCode(11096) + verticalLine);
-          } else {
-            displayBoard += chalk.underline(" " + verticalLine);
-          }
+    console.clear();
+    let displayBoard = "  " + chalk.underline(" A B C ") + "\n"; // head row
+    const verticalLine = "|";
+    for (let row = 0; row <= 2; row++) {
+        let leftDescription = `${row + 1} ${chalk.underline("|")}`;
+        displayBoard += leftDescription
+        for (let column = 0; column <= 2; column++) {
+            if (board[row][column] === 1) {
+                displayBoard += chalk.underline("x" + verticalLine);
+            } else if (board[row][column] === 0) {
+                displayBoard += chalk.underline(String.fromCharCode(11096) + verticalLine);
+            } else {
+                displayBoard += chalk.underline(" " + verticalLine);
+            }
+        }
+        displayBoard += "\n";
     }
-  displayBoard += "\n";
-  }
-  console.log(displayBoard);
+    console.log(displayBoard);
 }
 
 let allowedSquares = new Set (["A1", "A2", "A3", "B1", "B2", "B3", "C1", "C2", "C3"]);
@@ -107,12 +105,14 @@ function newBoard (board, chosenSquare, playerId) {
     return board;
 }
 
-function endGame(playerId) {
+function endGame(ending) {
     console.log("The game is over");
-    if (playerId === "draw"){
+    if (ending === "draw") {
         console.log("It\'s a draw");
+    } else if (ending === "q") {
+        console.log("bye");
     } else {
-        console.log(`${players[playerId]} has won`);
+        console.log(chalk.yellow(`${players[ending]} `)+ "has won");
     }
 
 }
@@ -125,15 +125,15 @@ const players = inputPlayers();
 for (let move = 0; move < 9; move++) {
     let playerId = move % 2;
     let chosenSquare = inputSquare(playerId);
-    let bl = newBoard(board, chosenSquare, playerId);
-    drawBoard(bl);
+    board = newBoard(board, chosenSquare, playerId);
+    drawBoard(board);
     if (isWon(board)) {
         endGame(playerId);
         break;
     }
 }
 
-endGame("draw");
+
 
 
 
