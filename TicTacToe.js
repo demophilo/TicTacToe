@@ -32,7 +32,7 @@ function inputPlayers() {
 }
 
 let board = [[null, null, null], [null, null, null], [null, null, null]];
-let exampleBoard = [[1, 0, 0], [1, 0, ], [, 1, 1]] // remove after finished
+let exampleBoard = [[1, 0, 0], [1, 0, null], [null, 1, 1]] // remove after finished
 
 function isWon(board) {
   let winningCondition =
@@ -93,28 +93,31 @@ function endGame() {
 }
 
 function newBoard (board, move, playerId) {
-    let coordinates = move.split("");
-    if  (coordinates[0] === "A") {
-        coordinates[0] = 0;
-    } else if (coordinates[0] === "B") {
-        coordinates[0] = 1;
-    } else if (coordinates[0] === "C") {
-        coordinates[0] = 2;
+    let coordinatesMove = move.split("");
+    let convertedCoordinates = [Number(coordinatesMove.pop()) - 1];
+    if  (coordinatesMove[0] === "A") {
+        convertedCoordinates.push(0);
+    } else if (coordinatesMove[0] === "B") {
+        convertedCoordinates.push(1);
+    } else if (coordinatesMove[0] === "C") {
+        convertedCoordinates.push(2);
     }
-    coordinates[1] = Number(coordinates[1]) - 1;
+
     if (playerId === 1) {
-        board[coordinates[0]][coordinates[1]] = 1;
+        board[convertedCoordinates[0]][convertedCoordinates[1]] = 1;
     } else {
-        board[coordinates[0]][coordinates[1]] = 0;
+        board[convertedCoordinates[0]][convertedCoordinates[1]] = 0;
     }
+    console.log(coordinatesMove[0], coordinatesMove[1], board);
     return board;
 }
-
+console.log(drawBoard(newBoard(exampleBoard,"A3",1)));
 
 // main
 // *********************************************
-
+/*
 intro();
 inputPlayers();
 let chosenSquare = inputSquare();
 
+*/
