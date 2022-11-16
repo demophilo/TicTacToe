@@ -16,9 +16,7 @@ function intro () {
     if (userStartInput === "quit") {
         endGame();
     }
-
 }
-
 
 function inputPlayers() {
     let players = [];
@@ -33,7 +31,6 @@ function inputPlayers() {
     return players;
 }
 
-let gameProgress = [];
 let board = [[null, null, null], [null, null, null], [null, null, null]];
 let exampleBoard = [[1, 0, 0], [1, 0, ], [, 1, 1]] // remove after finished
 
@@ -49,8 +46,6 @@ function isWon(board) {
     (board[2][0] === 1 && board[1][1] === 1 && board[0][2] === 1);
   return winningCondition;
 }
-
-
 
 function drawBoard(board) {
   let drawnBoard = "  " + chalk.underline(" A B C ") + "\n"; // head row
@@ -72,22 +67,10 @@ function drawBoard(board) {
   return drawnBoard;
 }
 
-console.log(drawBoard(exampleBoard))
+let allowedSquares = new Set ("A1", "A2", "A3", "B1", "B2", "B3", "C1", "C2", "C3");
 
 
-
-function allowedInputs() {
-    let allowedCombinations = [];
-    for (column of ["A", "B", "C"]) {
-        for (row of ["1", "2", "3"]) {
-            allowedCombinations.push(column + row);
-        }
-    }
-    return allowedCombinations;
-}
-console.log(allowedInputs());
-
-function inputSqare() {
+function inputSquare() {
     let input = "";
     while (input === "") {
         input = prompt("Which square do you chose? ");
@@ -96,19 +79,42 @@ function inputSqare() {
         }
         input = input.trim();
         input = input.toUpperCase();
-        let allowedSquares = allowedInputs();
-        if (!allowedSquares.includes(input)) {
+        if (!allowedSquares.has(input)) {
             input = "";
         }
     }
-
+  allowedSquares.delete(input);
   return input;
 }
-
-console.log(inputSqare());
-
 
 //*********endGame******** */
 function endGame() {
     console.log("Game is over, as you wish master");
 }
+
+function newBoard (board, move, playerId) {
+    let coordinates = move.split("");
+    if  (coordinates[0] === "A") {
+        coordinates[0] = 0;
+    } else if (coordinates[0] === "B") {
+        coordinates[0] = 1;
+    } else if (coordinates[0] === "C") {
+        coordinates[0] = 2;
+    }
+    coordinates[1] = Number(coordinates[1]) - 1;
+    if (playerId === 1) {
+        board[coordinates[0]][coordinates[1]] = 1;
+    } else {
+        board[coordinates[0]][coordinates[1]] = 0;
+    }
+    return board;
+}
+
+
+// main
+// *********************************************
+
+intro();
+inputPlayers();
+let chosenSquare = inputSquare();
+
