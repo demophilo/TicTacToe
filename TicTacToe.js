@@ -29,16 +29,16 @@ function inputPlayers() {
     return players;
 }
 
-function isWon(board) {
+function isWon(board, playerId) {
     let winningCondition =
-    (board[0][0] === 1 && board[0][1] === 1 && board[0][2] === 1) ||
-    (board[1][0] === 1 && board[1][1] === 1 && board[1][2] === 1) ||
-    (board[2][0] === 1 && board[2][1] === 1 && board[2][2] === 1) ||
-    (board[0][0] === 1 && board[1][0] === 1 && board[2][0] === 1) ||
-    (board[0][1] === 1 && board[1][1] === 1 && board[2][1] === 1) ||
-    (board[0][2] === 1 && board[1][2] === 1 && board[2][2] === 1) ||
-    (board[0][0] === 1 && board[1][1] === 1 && board[2][2] === 1) ||
-    (board[2][0] === 1 && board[1][1] === 1 && board[0][2] === 1);
+    (board[0][0] === playerId && board[0][1] === playerId && board[0][2] === playerId) ||
+    (board[1][0] === playerId && board[1][1] === playerId && board[1][2] === playerId) ||
+    (board[2][0] === playerId && board[2][1] === playerId && board[2][2] === playerId) ||
+    (board[0][0] === playerId && board[1][0] === playerId && board[2][0] === playerId) ||
+    (board[0][1] === playerId && board[1][1] === playerId && board[2][1] === playerId) ||
+    (board[0][2] === playerId && board[1][2] === playerId && board[2][2] === playerId) ||
+    (board[0][0] === playerId && board[1][1] === playerId && board[2][2] === playerId) ||
+    (board[2][0] === playerId && board[1][1] === playerId && board[0][2] === playerId);
 return winningCondition;
 }
 
@@ -64,13 +64,14 @@ function drawBoard(board) {
 }
 
 let allowedSquares = new Set (["A1", "A2", "A3", "B1", "B2", "B3", "C1", "C2", "C3"]);
-console.log(allowedSquares);
+
 
 
 function inputSquare(players, playerId, board) {
     let chosenSquare = "";
     if (players[playerId] === "BabyBot") {
-        chosenSquare = babyBot(board);
+        chosenSquareNumNum = babyBot(board);
+        chosenSquare = coordinatesNumNumToLetterNum(chosenSquareNumNum);
     } else { // human
 
         while (chosenSquare === "") {
@@ -82,28 +83,43 @@ function inputSquare(players, playerId, board) {
             chosenSquare = chosenSquare.toUpperCase();
             if (!allowedSquares.has(chosenSquare)) {
                 chosenSquare = "";
+            } else {
+                chosenSquareNumNum = coordinatesLetterNumToNumNum(chosenSquare);
             }
         }
     }
-
     allowedSquares.delete(chosenSquare);
-  return chosenSquare;
+  return chosenSquareNumNum;
 }
 
 //*********endGame******** */
 
-function newBoard (board, chosenSquare, playerId) {
+function newBoard (board, chosenSquareNumNum, playerId) {
     if (playerId === 0) {
-        board[chosenSquare[0]][chosenSquare[1]] = 1;
+        board[chosenSquareNumNum[0]][chosenSquareNumNum[1]] = 0;
     } else {
-        board[chosenSquare[0]][chosenSquare[1]] = 0;
+        board[chosenSquareNumNum[0]][chosenSquareNumNum[1]] = 1;
     }
     return board;
 }
 
+
+function coordinatesNumNumToLetterNum(numnum) {
+    let letterCoordinate = "";
+    if  (numnum[1] === 0) {
+        letterCoordinate = "A";
+    } else if (numnum[1] === 1) {
+        letterCoordinate = "B";
+    } else {
+        letterCoordinate = "C";
+    }
+    let numCoordinate = `${numnum[0] + 1}`
+    return letterCoordinate + numCoordinate;
+}
+
 function coordinatesLetterNumToNumNum(letterNum) {
     let coordinatesMove = letterNum.split("");
-    let numNum = [Math.floor(Number(coordinatesMove[1])) - 1];
+    let numNum = [Number(coordinatesMove[1]) - 1];
     coordinatesMove.pop();
     if  (coordinatesMove[0] === "A") {
         numNum.push(0);
@@ -138,7 +154,6 @@ function availableSquares (board) {
             }
         }
     }
-    console.log(nullSquares);
     return nullSquares;
 }
 
@@ -162,13 +177,13 @@ for (let move = 0; move < 9; move++) {
     let chosenSquare = inputSquare(players, playerId, board);
     board = newBoard(board, chosenSquare, playerId);
     drawBoard(board);
-    if (isWon(board)) {
+    if (isWon(board,playerId)) {
         endGame(playerId);
         break;
+    }else {
+        endGame("draw");
     }
+
 }
-
-
-
 
 
