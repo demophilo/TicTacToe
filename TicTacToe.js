@@ -67,42 +67,52 @@ let allowedSquares = new Set (["A1", "A2", "A3", "B1", "B2", "B3", "C1", "C2", "
 console.log(allowedSquares);
 
 
-function inputSquare(playerId) {
-    let input = "";
-    while (input === "") {
-        input = prompt(`${players[playerId]} chose a square: `);
-        if (input.toUpperCase() === "QUIT") {
-            break;
-        }
-        input = input.trim();
-        input = input.toUpperCase();
-        if (!allowedSquares.has(input)) {
-            input = "";
+function inputSquare(players, playerId, board) {
+    let chosenSquare = "";
+    if (players[playerId] === "BabyBot") {
+        chosenSquare = babyBot(board);
+    } else { // human
+
+        while (chosenSquare === "") {
+            chosenSquare = prompt(`${players[playerId]} chose a square: `);
+            if (chosenSquare.toUpperCase() === "QUIT") {
+                break;
+            }
+            chosenSquare = chosenSquare.trim();
+            chosenSquare = chosenSquare.toUpperCase();
+            if (!allowedSquares.has(chosenSquare)) {
+                chosenSquare = "";
+            }
         }
     }
-    allowedSquares.delete(input);
-  return input;
+
+    allowedSquares.delete(chosenSquare);
+  return chosenSquare;
 }
 
 //*********endGame******** */
 
 function newBoard (board, chosenSquare, playerId) {
-    let coordinatesMove = chosenSquare.split("");
-    let convertedCoordinates = [Math.floor(Number(coordinatesMove[1])) - 1];
-    coordinatesMove.pop();
-    if  (coordinatesMove[0] === "A") {
-        convertedCoordinates.push(0);
-    } else if (coordinatesMove[0] === "B") {
-        convertedCoordinates.push(1);
-    } else if (coordinatesMove[0] === "C") {
-        convertedCoordinates.push(2);
-    }
     if (playerId === 0) {
-        board[convertedCoordinates[0]][convertedCoordinates[1]] = 1;
+        board[chosenSquare[0]][chosenSquare[1]] = 1;
     } else {
-        board[convertedCoordinates[0]][convertedCoordinates[1]] = 0;
+        board[chosenSquare[0]][chosenSquare[1]] = 0;
     }
     return board;
+}
+
+function coordinatesLetterNumToNumNum(letterNum) {
+    let coordinatesMove = letterNum.split("");
+    let numNum = [Math.floor(Number(coordinatesMove[1])) - 1];
+    coordinatesMove.pop();
+    if  (coordinatesMove[0] === "A") {
+        numNum.push(0);
+    } else if (coordinatesMove[0] === "B") {
+        numNum.push(1);
+    } else if (coordinatesMove[0] === "C") {
+        numNum.push(2);
+    }
+    return numNum;
 }
 
 function endGame(ending) {
@@ -128,9 +138,19 @@ function availableSquares (board) {
             }
         }
     }
+    console.log(nullSquares);
     return nullSquares;
 }
 
+function getRandomItem(list) {
+    let randomItem = list[Math.floor(Math.random() * list.length)];
+    return randomItem;
+}
+
+function babyBot(board) {
+    let squaresToChose = availableSquares(board);
+    return getRandomItem(squaresToChose);
+}
 
 // main
 // *********************************************
@@ -139,7 +159,7 @@ intro();
 const players = inputPlayers();
 for (let move = 0; move < 9; move++) {
     let playerId = move % 2;
-    let chosenSquare = inputSquare(playerId);
+    let chosenSquare = inputSquare(players, playerId, board);
     board = newBoard(board, chosenSquare, playerId);
     drawBoard(board);
     if (isWon(board)) {
