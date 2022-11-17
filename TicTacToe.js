@@ -117,6 +117,21 @@ function endGame(ending) {
 
 }
 
+// AI
+
+function availableSquares (board) {
+    let nullSquares =[];
+    for (let coordHor = 0; coordHor <= 2; coordHor++) {
+        for (let coordVer = 0; coordVer <= 2; coordVer++)  {
+            if (board[coordHor][coordVer] === null) {
+                   nullSquares.push([coordHor, coordVer]);
+            }
+        }
+    }
+    return nullSquares;
+}
+
+
 // main
 // *********************************************
 
