@@ -7,12 +7,14 @@ let board = [[null, null, null], [null, null, null], [null, null, null]];
 function intro () {
     console.clear();
     console.log(chalk.red("Welcome to TicTacToe"));
-    console.log("Please enter the any key to start the game or q to quit.");
+    console.log("Please hit enter to start the game or q to quit.");
     console.log("If you want to play against an AI type in the Name of the AI");
     console.log("List of AI\'s:");
-    console.log("Babybot");
-    console.log("Moronbot");
-    console.log("Babybot");
+    console.log("BabyBot");
+    console.log("MoronBot");
+    console.log("GolemBot");
+    console.log("AnnieBot");
+    console.log("BigBot");
 
     let yourChoice = "Your choice: ";
     let userStartInput = prompt(yourChoice).toLowerCase();
@@ -45,12 +47,11 @@ function isWon(board, playerId) {
     (board[0][2] === playerId && board[1][2] === playerId && board[2][2] === playerId) ||
     (board[0][0] === playerId && board[1][1] === playerId && board[2][2] === playerId) ||
     (board[2][0] === playerId && board[1][1] === playerId && board[0][2] === playerId);
-    console.log(winningCondition);
 return winningCondition;
 }
 
 function drawBoard(board) {
-    //console.clear();
+    console.clear();
     let displayBoard = "  " + chalk.underline(" A B C ") + "\n"; // head row
     const verticalLine = "|";
     for (let row = 0; row <= 2; row++) {
@@ -82,6 +83,15 @@ function inputSquare(players, playerId, board) {
         chosenSquare = coordinatesNumNumToLetterNum(chosenSquareNumNum);
     } else if (players[playerId] === "MoronBot") {
         chosenSquareNumNum = moronBot(board, playerId);
+        chosenSquare = coordinatesNumNumToLetterNum(chosenSquareNumNum);
+    } else if (players[playerId] === "GolemBot") {
+        chosenSquareNumNum = golemBot(board, playerId);
+        chosenSquare = coordinatesNumNumToLetterNum(chosenSquareNumNum);
+    } else if (players[playerId] === "AnnieBot") {
+        chosenSquareNumNum = annieBot(board, playerId);
+        chosenSquare = coordinatesNumNumToLetterNum(chosenSquareNumNum);
+    } else if (players[playerId] === "BigBot") {
+        chosenSquareNumNum = bigBot(board, playerId);
         chosenSquare = coordinatesNumNumToLetterNum(chosenSquareNumNum);
     } else { // human
 
@@ -190,7 +200,86 @@ function moronBot (board, playerId) {
     return getRandomItem(squaresToChose);
 }
 
+function golemBot (board, playerId) {
+    let squaresToChose = availableSquares(board);
+    for (let square of squaresToChose) {
+        let tempValue = board[square[0]][square[1]]
+        let tempBoard = newBoard(board, square, playerId)
+        if (isWon(tempBoard, playerId)) {
+            return square;
+        }
+        tempBoard[square[0]][square[1]] = tempValue;
+    }
+    playerId = (playerId + 1) % 2;
+    for (let square of squaresToChose) {
+        let tempValue = board[square[0]][square[1]]
+        let tempBoard = newBoard(board, square, playerId)
+        if (isWon(tempBoard, playerId)) {
+            return square;
+        }
+        tempBoard[square[0]][square[1]] = tempValue;
+    }
+    return getRandomItem(squaresToChose);
+}
 
+function annieBot (board, playerId) {
+    let squaresToChose = availableSquares(board);
+    for (let square of squaresToChose) {
+        if (square[0] === 1 && square[1] ===1) {
+            return square;
+        }
+    }
+    for (let square of squaresToChose) {
+        let tempValue = board[square[0]][square[1]]
+        let tempBoard = newBoard(board, square, playerId)
+        if (isWon(tempBoard, playerId)) {
+            return square;
+        }
+        tempBoard[square[0]][square[1]] = tempValue;
+    }
+    playerId = (playerId + 1) % 2;
+    for (let square of squaresToChose) {
+        let tempValue = board[square[0]][square[1]]
+        let tempBoard = newBoard(board, square, playerId)
+        if (isWon(tempBoard, playerId)) {
+            return square;
+        }
+        tempBoard[square[0]][square[1]] = tempValue;
+    }
+    return getRandomItem(squaresToChose);
+}
+
+function bigBot (board, playerId) {
+    let squaresToChose = availableSquares(board);
+    for (let square of squaresToChose) {
+        if (square[0] === 1 && square[1] ===1) {
+            return square;
+        }
+    }
+    for (let square of squaresToChose) {
+        let tempValue = board[square[0]][square[1]]
+        let tempBoard = newBoard(board, square, playerId)
+        if (isWon(tempBoard, playerId)) {
+            return square;
+        }
+        tempBoard[square[0]][square[1]] = tempValue;
+    }
+    playerId = (playerId + 1) % 2;
+    for (let square of squaresToChose) {
+        let tempValue = board[square[0]][square[1]]
+        let tempBoard = newBoard(board, square, playerId)
+        if (isWon(tempBoard, playerId)) {
+            return square;
+        }
+        tempBoard[square[0]][square[1]] = tempValue;
+    }
+    for (let square of squaresToChose) {
+        if (square[0] !== 1 && square[1] ===1 || square[0] === 1 && square[1] !==1) {
+            return square;
+        }
+    }
+    return getRandomItem(squaresToChose);
+}
 // main
 // *********************************************
 
