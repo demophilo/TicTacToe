@@ -29,7 +29,6 @@ function inputPlayers() {
     let players = [];
     for (let playerId = 0; playerId <=1; playerId++) {
         console.log(`Who is player ${playerId + 1}?`);
-        //console.log("List of AI\'s:\nBabybot\nMoronbot\nGolem XIV\nHonest Annie");
         let player = prompt("Type in your name or chose an AI:   ");
         players.push(player);
     }
