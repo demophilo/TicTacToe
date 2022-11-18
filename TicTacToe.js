@@ -7,7 +7,12 @@ let board = [[null, null, null], [null, null, null], [null, null, null]];
 function intro () {
     console.clear();
     console.log(chalk.red("Welcome to TicTacToe"));
-    console.log(`Please enter s to start the game or q to quit.`);
+    console.log("Please enter the any key to start the game or q to quit.");
+    console.log("If you want to play against an AI type in the Name of the AI");
+    console.log("List of AI\'s:");
+    console.log("Babybot");
+    console.log("Babybot");
+    console.log("Babybot");
 
     let yourChoice = "Your choice: ";
     let userStartInput = prompt(yourChoice).toLowerCase();
@@ -22,14 +27,15 @@ function inputPlayers() {
     let players = [];
     for (let playerId = 0; playerId <=1; playerId++) {
         console.log(`Who is player ${playerId + 1}?`);
-        // console.log("List of AI\'s:\nBabybot\nMoronbot\nGolem XIV\nHonest Annie");
-        let player = prompt("Type in your name or chose an AI.");
+        //console.log("List of AI\'s:\nBabybot\nMoronbot\nGolem XIV\nHonest Annie");
+        let player = prompt("Type in your name or chose an AI:   ");
         players.push(player);
     }
     return players;
 }
 
 function isWon(board, playerId) {
+    playerId = (playerId+1) % 2
     let winningCondition =
     (board[0][0] === playerId && board[0][1] === playerId && board[0][2] === playerId) ||
     (board[1][0] === playerId && board[1][1] === playerId && board[1][2] === playerId) ||
@@ -39,6 +45,7 @@ function isWon(board, playerId) {
     (board[0][2] === playerId && board[1][2] === playerId && board[2][2] === playerId) ||
     (board[0][0] === playerId && board[1][1] === playerId && board[2][2] === playerId) ||
     (board[2][0] === playerId && board[1][1] === playerId && board[0][2] === playerId);
+    console.log(winningCondition);
 return winningCondition;
 }
 
@@ -96,9 +103,9 @@ function inputSquare(players, playerId, board) {
 
 function newBoard (board, chosenSquareNumNum, playerId) {
     if (playerId === 0) {
-        board[chosenSquareNumNum[0]][chosenSquareNumNum[1]] = 0;
-    } else {
         board[chosenSquareNumNum[0]][chosenSquareNumNum[1]] = 1;
+    } else {
+        board[chosenSquareNumNum[0]][chosenSquareNumNum[1]] = 0;
     }
     return board;
 }
@@ -138,7 +145,7 @@ function endGame(ending) {
     } else if (ending === "q") {
         console.log("bye");
     } else {
-        console.log(chalk.yellow(`${players[ending]} `)+ "has won");
+        console.log(chalk.yellow(`${ending} `)+ "has won");
     }
 
 }
@@ -172,18 +179,18 @@ function babyBot(board) {
 
 intro();
 const players = inputPlayers();
+console.clear();
+drawBoard(board);
 for (let move = 0; move < 9; move++) {
     let playerId = move % 2;
     let chosenSquare = inputSquare(players, playerId, board);
     board = newBoard(board, chosenSquare, playerId);
     drawBoard(board);
-    if (isWon(board,playerId)) {
-        endGame(playerId);
+    if (isWon(board, playerId)) {
+        endGame(players[playerId]);
         break;
-    }else {
+    } else if (move === 8) {
         endGame("draw");
     }
-
 }
-
 
