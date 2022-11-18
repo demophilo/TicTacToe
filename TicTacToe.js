@@ -11,7 +11,7 @@ function intro () {
     console.log("If you want to play against an AI type in the Name of the AI");
     console.log("List of AI\'s:");
     console.log("Babybot");
-    console.log("Babybot");
+    console.log("Moronbot");
     console.log("Babybot");
 
     let yourChoice = "Your choice: ";
@@ -50,7 +50,7 @@ return winningCondition;
 }
 
 function drawBoard(board) {
-    console.clear();
+    //console.clear();
     let displayBoard = "  " + chalk.underline(" A B C ") + "\n"; // head row
     const verticalLine = "|";
     for (let row = 0; row <= 2; row++) {
@@ -76,8 +76,12 @@ let allowedSquares = new Set (["A1", "A2", "A3", "B1", "B2", "B3", "C1", "C2", "
 
 function inputSquare(players, playerId, board) {
     let chosenSquare = "";
+    let chosenSquareNumNum =[];
     if (players[playerId] === "BabyBot") {
         chosenSquareNumNum = babyBot(board);
+        chosenSquare = coordinatesNumNumToLetterNum(chosenSquareNumNum);
+    } else if (players[playerId] === "MoronBot") {
+        chosenSquareNumNum = moronBot(board, playerId);
         chosenSquare = coordinatesNumNumToLetterNum(chosenSquareNumNum);
     } else { // human
 
@@ -111,16 +115,16 @@ function newBoard (board, chosenSquareNumNum, playerId) {
 }
 
 
-function coordinatesNumNumToLetterNum(numnum) {
+function coordinatesNumNumToLetterNum(numNum) {
     let letterCoordinate = "";
-    if  (numnum[1] === 0) {
+    if  (numNum[1] === 0) {
         letterCoordinate = "A";
-    } else if (numnum[1] === 1) {
+    } else if (numNum[1] === 1) {
         letterCoordinate = "B";
-    } else {
+    } else if (numNum[1] === 2) {
         letterCoordinate = "C";
     }
-    let numCoordinate = `${numnum[0] + 1}`
+    let numCoordinate = `${numNum[0] + 1}`
     return letterCoordinate + numCoordinate;
 }
 
@@ -173,6 +177,19 @@ function babyBot(board) {
     let squaresToChose = availableSquares(board);
     return getRandomItem(squaresToChose);
 }
+function moronBot (board, playerId) {
+    let squaresToChose = availableSquares(board);
+    for (let square of squaresToChose) {
+        let tempValue = board[square[0]][square[1]]
+        let tempBoard = newBoard(board, square, playerId)
+        if (isWon(tempBoard, playerId)) {
+            return square;
+        }
+        tempBoard[square[0]][square[1]] = tempValue;
+    }
+    return getRandomItem(squaresToChose);
+}
+
 
 // main
 // *********************************************
